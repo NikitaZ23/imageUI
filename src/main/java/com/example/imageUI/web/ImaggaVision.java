@@ -2,27 +2,25 @@ package com.example.imageUI.web;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class ImaggaVision {
-    public ImaggaVision() throws IOException {
+    public ImaggaVision(String filePath) throws IOException {
         String credentialsToEncode = "acc_b201dd626d9c453" + ":" + "15ea834e41e19f1527ce7a793604e0e7";
         String basicAuth = Base64.getEncoder().encodeToString(credentialsToEncode.getBytes(StandardCharsets.UTF_8));
 
         // Change the file path here
         String filepath = "/home/codeinside/IdeaProjects/imageUI/src/main/resources/imperator.jpeg";
 
-        File fileToUpload = new File(filepath);
+        File fileToUpload = new File(filePath);
 
         String endpoint = "/tags";
 
         String crlf = "\r\n";
         String twoHyphens = "--";
-        String boundary =  "Image Upload";
+        String boundary = "Image Upload";
 
         URL urlObject = new URL("https://api.imagga.com/v2" + endpoint);
         HttpURLConnection connection = (HttpURLConnection) urlObject.openConnection();
