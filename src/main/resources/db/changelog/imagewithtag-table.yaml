@@ -5,9 +5,19 @@ databaseChangeLog:
       failOnError: true
       comment: "Create table imagewithtags"
       changes:
+        - createSequence:
+            sequenceName: hibernate_sequence_iwt
+            incrementBy: 1
+            cycle: false
+            cacheSize: 1
+            minValue: 1
+            startValue: 1
         - createTable:
-            tableName: images
+            tableName: imagewithtags
             columns:
+              - column:
+                  name: uuid
+                  type: UUID
               - column:
                   name: id
                   type: BIGINT
@@ -28,8 +38,8 @@ databaseChangeLog:
             columns:
               - column:
                   descending: true
-                  name: id
-            indexName: idx_id
+                  name: uuid
+            indexName: idx_uuid
             schemaName: public
             tableName: imagewithtags
             unique: true

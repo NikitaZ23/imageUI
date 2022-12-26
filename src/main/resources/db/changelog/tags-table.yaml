@@ -6,7 +6,7 @@ databaseChangeLog:
       comment: "Create table tags"
       changes:
         - createSequence:
-            sequenceName: hibernate_sequence
+            sequenceName: hibernate_sequence_tg
             incrementBy: 1
             cycle: false
             cacheSize: 1
@@ -47,7 +47,7 @@ databaseChangeLog:
               - column:
                   descending: true
                   name: uuid
-            indexName: idx_uuid_notes
+            indexName: idx_uuid
             schemaName: public
             tableName: tags
             unique: true

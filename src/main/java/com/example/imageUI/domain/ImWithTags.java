@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -13,8 +14,12 @@ import javax.persistence.*;
 @Table(name = "\"imagewithtags\"")
 public class ImWithTags {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inwt_seq")
+    @SequenceGenerator(name = "inwt_seq", sequenceName = "hibernate_sequence_iwt", allocationSize = 1)
     private int id;
+
+    @Column(name = "\"uuid\"", nullable = false)
+    private UUID uuid = UUID.randomUUID();
 
     @JoinColumn(name = "\"id_im\"")
     private int id_im;
