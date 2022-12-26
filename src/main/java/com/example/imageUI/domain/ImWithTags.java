@@ -10,16 +10,20 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "\"tags\"")
-public class Tags {
+@Table(name = "\"imagewithtags\"")
+public class ImWithTags {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name = "\name\"")
-    String name;
+    @JoinColumn(name = "\"id_im\"")
+    private int id_im;
 
-    public Tags(String name) {
-        this.name = name;
+    @JoinColumn(name = "\"id_tg\"")
+    private int id_tg;
+
+    public ImWithTags(int id_im, int id_tg) {
+        this.id_im = id_im;
+        this.id_tg = id_tg;
     }
 }

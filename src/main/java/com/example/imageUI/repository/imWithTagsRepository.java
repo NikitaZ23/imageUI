@@ -1,9 +1,9 @@
 package com.example.imageUI.repository;
 
-import com.example.imageUI.domain.Image;
+import com.example.imageUI.domain.ImWithTags;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ImagesRepository extends CrudRepository<Image, Integer> {
+public interface imWithTagsRepository extends CrudRepository<ImWithTags, Integer> {
 }

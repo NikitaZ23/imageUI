@@ -7,13 +7,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.Data;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class ParseJson {
 
-    HashMap<String, Float> map;
+    List<String> list;
+
     public ParseJson(String text) {
 
         JsonObject jsonObject = new JsonParser().parse(text).getAsJsonObject();
@@ -22,7 +23,7 @@ public class ParseJson {
 
         JsonArray tags = jsonObject2.getAsJsonArray("tags");
 
-        map = new HashMap<>();
+        list = new ArrayList<>();
 
         for (int i = 0; i < tags.size(); i++) {
             JsonElement jsonElement = tags.get(i);
@@ -30,11 +31,7 @@ public class ParseJson {
             JsonObject jsonObject3 = tags.get(i).getAsJsonObject();
             JsonObject jsonObject4 = jsonObject3.get("tag").getAsJsonObject();
 
-            System.out.println(jsonObject3.get("confidence").toString() + " " + jsonObject4.get("en").toString());
-
-            map.put(jsonObject4.get("en").toString(), Float.valueOf(jsonObject3.get("confidence").toString()));
+            list.add(jsonObject4.get("en").toString());
         }
-
-        map.entrySet().stream().sorted(Map.Entry.<String, Float>comparingByValue().reversed()).forEach(stringFloatEntry -> System.out.println(stringFloatEntry.getKey() + "|" + stringFloatEntry.getValue()));
     }
 }

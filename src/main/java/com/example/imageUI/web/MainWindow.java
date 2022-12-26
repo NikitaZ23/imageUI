@@ -1,7 +1,7 @@
 package com.example.imageUI.web;
 
 import com.example.imageUI.common.ImaggaVision;
-import com.example.imageUI.domain.Images;
+import com.example.imageUI.domain.Image;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
@@ -24,8 +24,8 @@ public class MainWindow extends AppLayout {
 
     Button bFullSp;
 
-    Grid<Images> grid;
-    Images images;
+    Grid<Image> grid;
+    Image image;
 
     public MainWindow() throws IOException {
         layout = new VerticalLayout();
@@ -45,8 +45,8 @@ public class MainWindow extends AppLayout {
             try {
                 FileUtils.copyInputStreamToFile(inputStream, file);
                 ImaggaVision imaggaVision = new ImaggaVision(file.getPath());
-                //imaggaVision.getParseJson().getMap();
-                images = new Images(fileName, imaggaVision.getParseJson().getMap());
+
+                //images = new Images(fileName, imaggaVision.getParseJson().getMap());
                 grid.getDataProvider().refreshAll();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -61,14 +61,14 @@ public class MainWindow extends AppLayout {
         setContent(layout);
     }
 
-    @PostConstruct
-    public void fillGrid(){
-        grid.addColumn(Images::getName).setHeader("Name");
-        grid.addColumn(new NativeButtonRenderer<Images>("Редактировать", contact -> {
-            UI.getCurrent().navigate(FullTags.class);
-        }));
+//    @PostConstruct
+//    public void fillGrid(){
+//        grid.addColumn(Image::getName).setHeader("Name");
+//        grid.addColumn(new NativeButtonRenderer<Image>("Редактировать", contact -> {
+//            UI.getCurrent().navigate(FullTags.class);
+//        }));
 
-        grid.setItems(images);
-    }
+        //grid.setItems(images);
+   // }
 
 }

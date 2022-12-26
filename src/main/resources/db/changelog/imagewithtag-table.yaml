@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0
+      author: Nikita.Zachvatov
+      failOnError: true
+      comment: "Create table imagewithtags"
+      changes:
+        - createTable:
+            tableName: images
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_im
+                  type: int
+              - column:
+                  name: id_tg
+                  type: int
+        - addPrimaryKey:
+            columnNames: id
+            tableName: imagewithtags
+        - createIndex:
+            clustered: true
+            columns:
+              - column:
+                  descending: true
+                  name: id
+            indexName: idx_id
+            schemaName: public
+            tableName: imagewithtags
+            unique: true
+        - addForeignKeyConstraint:
+            baseColumnNames: id_im
+            baseTableName: imagewithtags
+            constraintName: FK_Image_IWT
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: images
+        - addForeignKeyConstraint:
+            baseColumnNames: id_tg
+            baseTableName: imagewithtags
+            constraintName: FK_Tag_IWT
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: tags
