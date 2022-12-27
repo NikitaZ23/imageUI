@@ -2,6 +2,7 @@ package com.example.imageUI.service.Imp;
 
 import com.example.imageUI.domain.Tag;
 import com.example.imageUI.dto.request.CreateTagRequest;
+import com.example.imageUI.exceptions.TagExistsExceptions;
 import com.example.imageUI.exceptions.TagNotFoundExceptions;
 import com.example.imageUI.repository.TagRepository;
 import com.example.imageUI.service.TagService;
@@ -17,6 +18,7 @@ import java.util.UUID;
 public class TagServiceImp implements TagService {
 
     public static final String TAG_NOT_FOUND = "Tag not found";
+    public static final String TAG_WITH_THIS_NAME_EXISTS = "tag with this name exists";
     private final TagRepository repository;
 
     @Override
@@ -54,9 +56,22 @@ public class TagServiceImp implements TagService {
     @Override
     @Transactional
     public Optional<Tag> updateTag(CreateTagRequest request, UUID uuid) {
-        Tag tag = findByUuid(uuid).orElseThrow(() -> new TagNotFoundExceptions(TAG_NOT_FOUND));
-        tag.setName(request.getName());
-        return Optional.of(repository.save(tag));
+        Optional<Tag> byName = findByName(request.getName());
+        if (byName.isPresent()) {
+            if (byName.get().getUuid() != uuid)
+                throw new TagExistsExceptions(TAG_WITH_THIS_NAME_EXISTS);
+            else
+                return byName;
+        } else {
+            Optional<Tag> byUuid = findByUuid(uuid);
+            if (byUuid.isPresent()) {
+                Tag tag = byUuid.get();
+                tag.setName(request.getName());
+
+                return Optional.of(repository.save(tag));
+            } else
+                return Optional.empty();
+        }
     }
 
     @Override

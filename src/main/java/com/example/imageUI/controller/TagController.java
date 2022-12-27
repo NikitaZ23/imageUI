@@ -3,6 +3,8 @@ package com.example.imageUI.controller;
 import com.example.imageUI.domain.Tag;
 import com.example.imageUI.dto.TagDto;
 import com.example.imageUI.dto.request.CreateTagRequest;
+import com.example.imageUI.exceptions.TagExistsExceptions;
+import com.example.imageUI.exceptions.TagExistsRestException;
 import com.example.imageUI.exceptions.TagNotFoundExceptions;
 import com.example.imageUI.exceptions.TagNotFoundRestException;
 import com.example.imageUI.mapper.TagMapper;
@@ -55,10 +57,15 @@ public class TagController {
 
     @PutMapping("/{tagId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public TagDto updateTag(@Valid @ResponseBody final CreateTagRequest request,
+    public TagDto updateTag(@Valid @RequestBody final CreateTagRequest request,
                             @PathVariable("tagId") final UUID uuid){
-
-        return ;
+        try {
+            Tag tag = tagServiceImp.updateTag(request, uuid).orElseThrow(() -> new TagNotFoundRestException(TAG_NOT_FOUND));
+            return mapper.map(tag);
+        }
+        catch (TagExistsExceptions e){
+            throw new TagExistsRestException(e.getMessage());
+        }
     }
 
 }
