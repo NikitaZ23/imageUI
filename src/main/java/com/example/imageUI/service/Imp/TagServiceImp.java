@@ -21,14 +21,10 @@ public class TagServiceImp implements TagService {
 
     @Override
     public Tag createTag(CreateTagRequest request) {
-        System.out.println("000000");
         Optional<Tag> tagOptional = repository.findByName(request.getName());
-        System.out.println("1111111");
         if (tagOptional.isPresent()) {
-            System.out.println("2222222");
             return tagOptional.get();
         } else {
-            System.out.println("33333333");
             return repository.save(new Tag(request.getName()));
         }
     }

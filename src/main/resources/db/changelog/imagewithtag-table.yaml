@@ -43,6 +43,7 @@ databaseChangeLog:
             initiallyDeferred: false
             referencedColumnNames: id
             referencedTableName: images
+            onDelete: CASCADE
         - addForeignKeyConstraint:
             baseColumnNames: id_tg
             baseTableName: imagewithtags
@@ -51,3 +52,4 @@ databaseChangeLog:
             initiallyDeferred: false
             referencedColumnNames: id
             referencedTableName: tags
+            onDelete: CASCADE
