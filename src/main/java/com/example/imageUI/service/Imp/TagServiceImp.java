@@ -24,11 +24,7 @@ public class TagServiceImp implements TagService {
     @Override
     public Tag createTag(CreateTagRequest request) {
         Optional<Tag> tagOptional = repository.findByName(request.getName());
-        if (tagOptional.isPresent()) {
-            return tagOptional.get();
-        } else {
-            return repository.save(new Tag(request.getName()));
-        }
+        return tagOptional.orElseGet(() -> repository.save(new Tag(request.getName())));
     }
 
     @Override
@@ -58,7 +54,7 @@ public class TagServiceImp implements TagService {
     public Optional<Tag> updateTag(CreateTagRequest request, UUID uuid) {
         Optional<Tag> byName = findByName(request.getName());
         if (byName.isPresent()) {
-            if (byName.get().getUuid() != uuid)
+            if (!byName.get().getUuid().equals(uuid))
                 throw new TagExistsExceptions(TAG_WITH_THIS_NAME_EXISTS);
             else
                 return byName;
