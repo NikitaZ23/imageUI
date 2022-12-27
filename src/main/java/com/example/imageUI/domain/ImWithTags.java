@@ -24,10 +24,11 @@ public class ImWithTags {
     @JoinColumn(name = "\"id_im\"")
     private int id_im;
 
+    @OneToOne
     @JoinColumn(name = "\"id_tg\"")
-    private int id_tg;
+    private Tag id_tg;
 
-    public ImWithTags(int id_im, int id_tg) {
+    public ImWithTags(int id_im, Tag id_tg) {
         this.id_im = id_im;
         this.id_tg = id_tg;
     }

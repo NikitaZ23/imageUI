@@ -1,8 +1,11 @@
 package com.example.imageUI.web;
 
+import com.example.imageUI.common.ImageFull;
 import com.example.imageUI.common.ImaggaVision;
+import com.example.imageUI.domain.ImWithTags;
 import com.example.imageUI.domain.Image;
 import com.example.imageUI.dto.request.CreateImageRequest;
+import com.example.imageUI.service.Imp.ImWithTagsServiceImp;
 import com.example.imageUI.service.Imp.ImageServiceImp;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
@@ -19,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Route("mainWindow")
@@ -27,10 +31,12 @@ public class MainWindow extends AppLayout {
 
     Button bFullSp;
 
-    Grid<Image> grid;
+    Grid<ImageFull> grid;
 
     @Autowired
     ImageServiceImp imageServiceImp;
+    @Autowired
+    ImWithTagsServiceImp imWithTagsServiceImp;
 
     public MainWindow() throws IOException {
         layout = new VerticalLayout();
@@ -51,10 +57,11 @@ public class MainWindow extends AppLayout {
                 FileUtils.copyInputStreamToFile(inputStream, file);
                 ImaggaVision imaggaVision = new ImaggaVision(file.getPath());
 
-                imaggaVision.getParseJson().getList();
-                imageServiceImp.createImage(new CreateImageRequest(fileName));
-                //images = new Images(fileName, imaggaVision.getParseJson().getMap());
+                //System.out.println(imaggaVision.getParseJson().getList());
+                imageServiceImp.createImage(new CreateImageRequest(fileName), imaggaVision.getParseJson().getList());
+
                 grid.getDataProvider().refreshAll();
+                refreshAll();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -70,19 +77,37 @@ public class MainWindow extends AppLayout {
 
     @PostConstruct
     public void fillGrid() {
-        List<Image> list = new ArrayList<>();
-        list.add(new Image("asd"));
-        list.add(new Image("asd"));
-        list.add(new Image("asd"));
-        list.add(new Image("asd"));
+        List<ImageFull> fulls = new ArrayList<>();
 
-        imageServiceImp.findAll();//.forEach(image1 -> list.add(image1));
-        grid.addColumn(Image::getName).setHeader("Name");
+        imageServiceImp.findAll().forEach(image -> {
+            List<String> tags = new ArrayList<>();
+            imWithTagsServiceImp.findById_Im(image.getId()).forEach(imWithTags -> tags.add(imWithTags.getId_tg().getName()));
+
+            fulls.add(new ImageFull(image.getName(), tags));
+        });
+
+        grid.addColumn(ImageFull::getName).setHeader("Name");
+        grid.addColumn(ImageFull::getTags).setHeader("Tags");
+
+        //grid.addColumn(Image::getList).setHeader("Tags");
 //        grid.addColumn(new NativeButtonRenderer<Image>("Редактировать", contact -> {
 //            UI.getCurrent().navigate(FullTags.class);
 //        }));
 
-        grid.setItems(list);
+        grid.setItems(fulls);
+    }
+
+    public void refreshAll() {
+        grid.setItems();
+        List<ImageFull> fulls = new ArrayList<>();
+
+        imageServiceImp.findAll().forEach(image -> {
+            List<String> tags = new ArrayList<>();
+            imWithTagsServiceImp.findById_Im(image.getId()).forEach(imWithTags -> tags.add(imWithTags.getId_tg().getName()));
+
+            fulls.add(new ImageFull(image.getName(), tags));
+        });
+        grid.setItems(fulls);
     }
 
 }

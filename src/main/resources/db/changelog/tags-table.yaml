@@ -26,12 +26,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: name
-                  type: varchar(50)
-              - column:
-                  name: images_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
+                  type: varchar(100)
               - column:
                   name: created
                   type: datetime
@@ -41,13 +36,3 @@ databaseChangeLog:
         - addPrimaryKey:
             columnNames: id
             tableName: tags
-        - createIndex:
-            clustered: true
-            columns:
-              - column:
-                  descending: true
-                  name: uuid
-            indexName: idx_uuid
-            schemaName: public
-            tableName: tags
-            unique: true

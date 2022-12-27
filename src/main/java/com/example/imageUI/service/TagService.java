@@ -16,5 +16,9 @@ public interface TagService {
 
     Optional<Tag> findByUuid(UUID uuid);
 
+    Optional<Tag> findById(int id);
+
+    Optional<Tag> findByName(String name);
+
     Optional<Tag> updateTag(@NotNull CreateTagRequest request, UUID uuid);
 }

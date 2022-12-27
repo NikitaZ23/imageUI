@@ -4,6 +4,7 @@ import com.example.imageUI.domain.Image;
 import com.example.imageUI.dto.request.CreateImageRequest;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,9 +15,7 @@ public interface ImageService {
 
     void deleteImage(UUID uuid);
 
-    Image createImage(@NotNull CreateImageRequest request);
+    Image createImage(@NotNull CreateImageRequest request, List<String> list);
 
     Optional<Image> updateImage(@NotNull CreateImageRequest request, UUID uuid);
-
-    long count();
 }

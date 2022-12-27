@@ -13,7 +13,7 @@ public class ImaggaVision {
 
     ParseJson parseJson;
     public ImaggaVision(String filePath) throws IOException {
-        String credentialsToEncode = "acc_313f0d088724e9d" + ":" + "88301804534070e48de49f4825adac3a";
+        String credentialsToEncode = "acc_b201dd626d9c453" + ":" + "15ea834e41e19f1527ce7a793604e0e7";
         String basicAuth = Base64.getEncoder().encodeToString(credentialsToEncode.getBytes(StandardCharsets.UTF_8));
 
         File fileToUpload = new File(filePath);
@@ -68,7 +68,7 @@ public class ImaggaVision {
         responseStreamReader.close();
 
         String response = stringBuilder.toString();
-        System.out.println(response);
+        //System.out.println(response);
 
         parseJson = new ParseJson(response);
 

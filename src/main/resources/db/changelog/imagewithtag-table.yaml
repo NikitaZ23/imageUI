@@ -29,20 +29,12 @@ databaseChangeLog:
                   type: int
               - column:
                   name: id_tg
-                  type: int
+                  type: BIGINT
+                  constraints:
+                    nullable: false
         - addPrimaryKey:
             columnNames: id
             tableName: imagewithtags
-        - createIndex:
-            clustered: true
-            columns:
-              - column:
-                  descending: true
-                  name: uuid
-            indexName: idx_uuid
-            schemaName: public
-            tableName: imagewithtags
-            unique: true
         - addForeignKeyConstraint:
             baseColumnNames: id_im
             baseTableName: imagewithtags

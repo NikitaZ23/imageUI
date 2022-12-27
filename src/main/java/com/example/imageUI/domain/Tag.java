@@ -24,7 +24,7 @@ public class Tag {
     @Column(name = "\"uuid\"", nullable = false)
     private UUID uuid = UUID.randomUUID();
 
-    @Column(name = "\name\"", nullable = false)
+    @Column(name = "\"name\"", nullable = false)
     private String name;
 
     @CreatedDate
