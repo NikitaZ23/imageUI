@@ -1,5 +1,6 @@
 package com.example.imageUI.controller;
 
+import com.example.imageUI.mapper.ImageMapper;
 import com.example.imageUI.service.Imp.ImageServiceImp;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,5 +10,5 @@ import org.springframework.web.bind.annotation.RestController;
 public class ImageController {
     ImageServiceImp imageServiceImp;
 
-
+    ImageMapper mapper;
 }
