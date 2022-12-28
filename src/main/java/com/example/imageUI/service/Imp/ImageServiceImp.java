@@ -77,6 +77,7 @@ public class ImageServiceImp implements ImageService {
 
     @Override
     @SneakyThrows
+    @Transactional
     public Image createImage(MultipartFile multipartFile) {
         byte[] bytes = multipartFile.getBytes();
         String name = multipartFile.getOriginalFilename();
@@ -97,6 +98,7 @@ public class ImageServiceImp implements ImageService {
 
     @SneakyThrows
     @Override
+    @Transactional
     public void createImage(MultiFileMemoryBuffer buffer, String fileName) {
         InputStream inputStream = buffer.getInputStream(fileName);
         System.out.println(fileName);
