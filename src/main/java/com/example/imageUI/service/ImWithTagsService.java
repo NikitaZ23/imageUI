@@ -10,16 +10,18 @@ import java.util.UUID;
 public interface ImWithTagsService {
     Iterable<ImWithTags> findAll();
 
-    Optional<ImWithTags> findById(int id);
+    Optional<ImWithTags> findByUuid(UUID id);
 
     Iterable<ImWithTags> findById_Im(int id_im);
     Iterable<ImWithTags> findById_Tg(int id_tg);
 
-    void deleteIWT(UUID uuid);
-
     void createIWT(int id_im, List<String> tags);
 
-    void createIWT(CreateIWTRequest request);
+    ImWithTags createIWT(CreateIWTRequest request);
 
-    void deleteBy_Id(int id_im);
+    void deleteBy_IdIm(int id_im);
+
+    void deleteBy_IdTg(int id_tg);
+
+    void delete(UUID uuid);
 }

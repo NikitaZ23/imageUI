@@ -53,13 +53,6 @@ public class ImageServiceImp implements ImageService {
 
     @Override
     @Transactional
-    public void deleteImage(UUID uuid) {
-        Image image = findByUuid(uuid).orElseThrow(() -> new ImageNotFoundExceptions(IMAGE_NOT_FOUND));
-        repository.delete(image);
-    }
-
-    @Override
-    @Transactional
     public Image createImage(CreateImageRequest request, List<String> list) {
         Image image;
 
@@ -114,13 +107,30 @@ public class ImageServiceImp implements ImageService {
     @Override
     @Transactional
     public Optional<Image> updateImage(CreateImageRequest request, UUID uuid) {
-        Optional<Image> optionalImage = repository.findByName(request.getName());
+        Optional<Image> optionalImage = repository.findByUuid(uuid);
         if (optionalImage.isPresent()) {
             Image image = optionalImage.get();
+            File file = new File("./pictures/" + image.getName());
+
             image.setName(request.getName());
-            return Optional.of(repository.save(image));
+
+            Image save = repository.save(image);
+
+            File eFile = new File("./pictures/" + request.getName());
+            file.renameTo(eFile);
+
+            return Optional.of(save);
         } else {
             return Optional.empty();
         }
+    }
+
+    @Override
+    @Transactional
+    public void deleteImage(UUID uuid) {
+        Image image = findByUuid(uuid).orElseThrow(() -> new ImageNotFoundExceptions(IMAGE_NOT_FOUND));
+        repository.delete(image);
+        File file = new File("./pictures/" + image.getName());
+        file.delete();
     }
 }
