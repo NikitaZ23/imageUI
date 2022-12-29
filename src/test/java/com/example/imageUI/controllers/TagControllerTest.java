@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 public class TagControllerTest {
     @Test
     public void test(){
-        System.out.println("hi");
+        System.out.println("check pull");
     }
 
 }
