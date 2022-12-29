@@ -3,16 +3,17 @@ package com.example.imageUI.web;
 import com.example.imageUI.common.ImageFull;
 import com.example.imageUI.service.Imp.ImWithTagsServiceImp;
 import com.example.imageUI.service.Imp.ImageServiceImp;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
+import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class MainWindow extends AppLayout {
     @Autowired
     ImWithTagsServiceImp imWithTagsServiceImp;
 
-    public MainWindow() throws IOException {
+    public MainWindow() {
         layout = new VerticalLayout();
 
         grid = new Grid<>();
@@ -61,10 +62,12 @@ public class MainWindow extends AppLayout {
         grid.addColumn(ImageFull::getName).setHeader("Name");
         grid.addColumn(ImageFull::getTags).setHeader("Tags");
 
-        //grid.addColumn(Image::getList).setHeader("Tags");
-//        grid.addColumn(new NativeButtonRenderer<Image>("Редактировать", contact -> {
-//            UI.getCurrent().navigate(FullTags.class);
-//        }));
+        grid.addColumn(new NativeButtonRenderer<>("Редактировать", contact -> UI.getCurrent().navigate(FullTags.class).ifPresent(fullTags ->
+        {
+            fullTags.setImage(imageServiceImp.findByName(contact.getName()));
+
+            fullTags.refreshAll();
+        })));
 
         grid.setItems(fulls);
     }

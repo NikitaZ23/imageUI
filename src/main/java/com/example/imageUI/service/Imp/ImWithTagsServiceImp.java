@@ -4,6 +4,7 @@ import com.example.imageUI.domain.ImWithTags;
 import com.example.imageUI.domain.Tag;
 import com.example.imageUI.dto.request.CreateIWTRequest;
 import com.example.imageUI.dto.request.CreateTagRequest;
+import com.example.imageUI.exceptions.IWTNotFoundExceptions;
 import com.example.imageUI.exceptions.ImageNotFoundExceptions;
 import com.example.imageUI.repository.ImWithTagsRepository;
 import com.example.imageUI.service.ImWithTagsService;
@@ -30,24 +31,24 @@ public class ImWithTagsServiceImp implements ImWithTagsService {
     public void createIWT(int id_im, List<String> tags) {
         List<Tag> list = new ArrayList<>();
 
-        tags.stream().forEach(tag -> list.add(tagService.createTag(new CreateTagRequest(tag))));
+        tags.forEach(tag -> list.add(tagService.createTag(new CreateTagRequest(tag))));
 
         deleteBy_IdIm(id_im);
-        list.stream().forEach(tag -> createIWT(new CreateIWTRequest(id_im, tag)));
+        list.forEach(tag -> createIWT(new CreateIWTRequest(id_im, tag)));
     }
 
     @Override
     @Transactional
     public void deleteBy_IdIm(int id_im) {
         Iterable<ImWithTags> imWithTags = repository.findById_Im(id_im);
-        imWithTags.forEach(imWithTags1 -> repository.delete(imWithTags1));
+        imWithTags.forEach(repository::delete);
     }
 
     @Override
     @Transactional
     public void deleteBy_IdTg(int id_tg) {
         Iterable<ImWithTags> imWithTags = repository.findById_Tg(id_tg);
-        imWithTags.forEach(imWithTags1 -> repository.delete(imWithTags1));
+        imWithTags.forEach(repository::delete);
     }
 
     @Override
@@ -62,19 +63,29 @@ public class ImWithTagsServiceImp implements ImWithTagsService {
     public ImWithTags createIWT(CreateIWTRequest request) {
         Optional<ImWithTags> object = repository.findByOneObject(request.getId_im(), request.getId_im());
 
-        if (object.isPresent())
-            return object.get();
-        else
-            return repository.save(new ImWithTags(request.getId_im(), request.getId_tg()));
+        return object.orElseGet(() -> repository.save(new ImWithTags(request.getId_im(), request.getId_tg())));
     }
 
     @Override
     public Iterable<ImWithTags> findAll() {
         return repository.findAll();
     }
-
+    @Override
     public Optional<ImWithTags> findByUuid(UUID id) {
         return repository.findByUuid(id);
+    }
+
+    @Override
+    public List<Tag> getTags(int id_im){
+        List<Tag> tags = new ArrayList<>();
+        findById_Im(id_im).forEach(imWithTags -> tags.add(imWithTags.getId_tg()));
+
+        return tags;
+    }
+
+    @Override
+    public ImWithTags findByOneObject(int id_im, int id_tg) {
+        return repository.findByOneObject(id_im, id_tg).orElseThrow(() -> new IWTNotFoundExceptions(DEPENDENCY_NOT_FOUND));
     }
 
     @Override

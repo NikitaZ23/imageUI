@@ -25,4 +25,6 @@ public interface ImageService {
     Image createImage(@NotEmpty MultipartFile file);
 
     void createImage(@NotNull MultiFileMemoryBuffer buffer, @NotNull String fileName);
+
+    Image findByName(String name);
 }

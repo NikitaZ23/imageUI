@@ -61,6 +61,11 @@ public class ImageServiceImp implements ImageService {
     }
 
     @Override
+    public Image findByName(String name) {
+        return repository.findByName(name).orElseThrow(() -> new ImageNotFoundExceptions(IMAGE_NOT_FOUND));
+    }
+
+    @Override
     @SneakyThrows
     @Transactional
     public Image createImage(MultipartFile multipartFile) {
