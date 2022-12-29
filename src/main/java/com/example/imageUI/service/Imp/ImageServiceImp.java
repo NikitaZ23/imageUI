@@ -44,6 +44,12 @@ public class ImageServiceImp implements ImageService {
     }
 
     @Override
+    public Optional<Image> findById(int id) {
+        Image image = repository.findById(id).orElseThrow(() -> new ImageNotFoundExceptions(IMAGE_NOT_FOUND));
+        return Optional.of(image);
+    }
+
+    @Override
     public Optional<Image> findByUuid(UUID uuid) {
         return repository.findByUuid(uuid);
     }

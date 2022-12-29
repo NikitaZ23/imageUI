@@ -16,6 +16,8 @@ public interface ImageService {
 
     Optional<Image> findByUuid(UUID uuid);
 
+    Optional<Image> findById(int id);
+
     void deleteImage(UUID uuid);
 
     Image createImage(@NotNull CreateImageRequest request, List<String> list);

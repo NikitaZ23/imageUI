@@ -1,11 +1,18 @@
 package com.example.imageUI.web;
 
 import com.example.imageUI.common.ImageFull;
+import com.example.imageUI.domain.Image;
 import com.example.imageUI.service.Imp.ImWithTagsServiceImp;
 import com.example.imageUI.service.Imp.ImageServiceImp;
+import com.example.imageUI.service.Imp.TagServiceImp;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.messages.MessageInput;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
@@ -20,17 +27,28 @@ import java.util.List;
 @Route("mainWindow")
 public class MainWindow extends AppLayout {
     VerticalLayout layout;
+    HorizontalLayout horizontalLayout;
 
     Grid<ImageFull> grid;
+
+    MessageInput input;
+    List<ImageFull> fulls;
+
+    Button button;
 
     @Autowired
     ImageServiceImp imageServiceImp;
     @Autowired
     ImWithTagsServiceImp imWithTagsServiceImp;
 
+    @Autowired
+    TagServiceImp tagServiceImp;
+
     public MainWindow() {
         layout = new VerticalLayout();
+        horizontalLayout = new HorizontalLayout();
 
+        button = new Button("Refresh");
         grid = new Grid<>();
 
         MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
@@ -42,7 +60,24 @@ public class MainWindow extends AppLayout {
             refreshAll();
         });
 
-        layout.add(upload);
+        input = new MessageInput();
+        input.setMinWidth("200");
+        input.addSubmitListener(submitEvent -> {
+            Notification.show("Filter: " + submitEvent.getValue(),
+                    3000, Notification.Position.MIDDLE);
+
+            grid.setItems(getList(submitEvent.getValue()));
+
+        });
+
+        button.addClickListener(buttonClickEvent -> refreshAll());
+
+        horizontalLayout.add(upload);
+        horizontalLayout.add(input);
+        horizontalLayout.add(button);
+        horizontalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+
+        layout.add(horizontalLayout);
         layout.add(grid);
 
         setContent(layout);
@@ -50,15 +85,6 @@ public class MainWindow extends AppLayout {
 
     @PostConstruct
     public void fillGrid() {
-        List<ImageFull> fulls = new ArrayList<>();
-
-        imageServiceImp.findAll().forEach(image -> {
-            List<String> tags = new ArrayList<>();
-            imWithTagsServiceImp.findById_Im(image.getId()).forEach(imWithTags -> tags.add(imWithTags.getId_tg().getName()));
-
-            fulls.add(new ImageFull(image.getName(), tags));
-        });
-
         grid.addColumn(ImageFull::getName).setHeader("Name");
         grid.addColumn(ImageFull::getTags).setHeader("Tags");
 
@@ -69,12 +95,16 @@ public class MainWindow extends AppLayout {
             fullTags.refreshAll();
         })));
 
-        grid.setItems(fulls);
+        grid.setItems(getList());
     }
 
     public void refreshAll() {
         grid.setItems();
-        List<ImageFull> fulls = new ArrayList<>();
+        grid.setItems(getList());
+    }
+
+    public List<ImageFull> getList() {
+        fulls = new ArrayList<>();
 
         imageServiceImp.findAll().forEach(image -> {
             List<String> tags = new ArrayList<>();
@@ -82,7 +112,25 @@ public class MainWindow extends AppLayout {
 
             fulls.add(new ImageFull(image.getName(), tags));
         });
-        grid.setItems(fulls);
+
+        return fulls;
+    }
+
+    public List<ImageFull> getList(String nameTag) {
+        fulls = new ArrayList<>();
+
+        System.out.println(nameTag);
+        imWithTagsServiceImp.findById_Tg(tagServiceImp.findByName(nameTag).get().getId()).forEach(imWithTags -> {
+            Image image = imageServiceImp.findById(imWithTags.getId_im()).get();
+            System.out.println(image.getName());
+
+            List<String> tags = new ArrayList<>();
+            imWithTagsServiceImp.findById_Im(image.getId()).forEach(imWithTags2 -> tags.add(imWithTags2.getId_tg().getName()));
+
+            fulls.add(new ImageFull(image.getName(), tags));
+        });
+
+        return fulls;
     }
 
 }

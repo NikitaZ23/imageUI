@@ -25,12 +25,10 @@ public class ParseJson {
         list = new ArrayList<>();
 
         for (int i = 0; i < tags.size(); i++) {
-//            JsonElement jsonElement = tags.get(i);
-            //System.out.println(jsonElement.toString());
             JsonObject jsonObject3 = tags.get(i).getAsJsonObject();
             JsonObject jsonObject4 = jsonObject3.get("tag").getAsJsonObject();
 
-            list.add(jsonObject4.get("en").toString());
+            list.add(jsonObject4.get("en").toString().replace("\"", ""));
         }
     }
 }
