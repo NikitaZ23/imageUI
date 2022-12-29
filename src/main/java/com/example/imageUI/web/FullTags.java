@@ -9,7 +9,7 @@ import com.vaadin.flow.router.Route;
 public class FullTags extends AppLayout {
     Grid<Image> grid;
 
-    public FullTags(){
+    public FullTags() {
         grid = new Grid<>();
     }
 

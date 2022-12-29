@@ -12,6 +12,7 @@ import java.util.Base64;
 public class ImaggaVision {
 
     ParseJson parseJson;
+
     public ImaggaVision(String filePath) throws IOException {
         String credentialsToEncode = "acc_b201dd626d9c453" + ":" + "15ea834e41e19f1527ce7a793604e0e7";
         String basicAuth = Base64.getEncoder().encodeToString(credentialsToEncode.getBytes(StandardCharsets.UTF_8));

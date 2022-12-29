@@ -1,8 +1,6 @@
 package com.example.imageUI.service;
 
-import com.example.imageUI.domain.ImWithTags;
 import com.example.imageUI.domain.Image;
-import com.example.imageUI.domain.Tag;
 import com.example.imageUI.dto.request.CreateImageRequest;
 import com.example.imageUI.repository.ImWithTagsRepository;
 import com.example.imageUI.repository.ImagesRepository;
@@ -18,7 +16,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -12,6 +12,7 @@ import java.util.UUID;
 public interface ImWithTagsRepository extends CrudRepository<ImWithTags, Integer> {
     @Query(value = "select * from imagewithtags where id_im = ?1", nativeQuery = true)
     Iterable<ImWithTags> findById_Im(int id_im);
+
     @Query(value = "select * from imagewithtags where id_tg = ?1", nativeQuery = true)
     Iterable<ImWithTags> findById_Tg(int id_tg);
 

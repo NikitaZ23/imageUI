@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
@@ -51,8 +52,7 @@ public class TagServiceTest {
 
     @Test
     @DisplayName("Проверка получения тега по uuid")
-    public void findTagTest()
-    {
+    public void findTagTest() {
         Tag tag = new Tag("tag");
 
         Mockito.when(repository.findByUuid(Mockito.any())).thenReturn(Optional.of(tag));
@@ -64,8 +64,7 @@ public class TagServiceTest {
 
     @Test
     @DisplayName("Проверка получения тега по id")
-    public void findTagIdTest()
-    {
+    public void findTagIdTest() {
         Tag tag = new Tag("tag");
 
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(tag));
@@ -77,8 +76,7 @@ public class TagServiceTest {
 
     @Test
     @DisplayName("Проверка получения тега по имени")
-    public void findTagNameTest()
-    {
+    public void findTagNameTest() {
         Tag tag = new Tag("tag");
 
         Mockito.when(repository.findByName(Mockito.any())).thenReturn(Optional.of(tag));
@@ -90,8 +88,7 @@ public class TagServiceTest {
 
     @Test
     @DisplayName("Проверка создания тега")
-    public void createTagTest()
-    {
+    public void createTagTest() {
         Tag tag = new Tag("tag");
 
         Mockito.when(repository.save(Mockito.any())).thenReturn(tag);
@@ -103,8 +100,7 @@ public class TagServiceTest {
 
     @Test
     @DisplayName("Проверка обновления тега")
-    public void updateTagTest()
-    {
+    public void updateTagTest() {
         Tag tag = new Tag("tag");
         Tag tag2 = new Tag("tag2");
 
@@ -119,8 +115,7 @@ public class TagServiceTest {
 
     @Test
     @DisplayName("Проверка удаления тега")
-    public void deleteTagTest()
-    {
+    public void deleteTagTest() {
         Tag tag = new Tag("tag");
 
         Mockito.when(repository.findByUuid(Mockito.any())).thenReturn(Optional.of(tag));
@@ -142,8 +137,7 @@ public class TagServiceTest {
 
     @Test
     @DisplayName("Проверка вызова ошибки при обновлении тега")
-    public void updateTagExceptionTest()
-    {
+    public void updateTagExceptionTest() {
         Tag tag2 = new Tag("tag2");
 
         Mockito.when(repository.findByName(Mockito.any())).thenReturn(Optional.of(tag2));

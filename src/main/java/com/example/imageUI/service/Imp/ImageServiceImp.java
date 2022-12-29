@@ -1,7 +1,6 @@
 package com.example.imageUI.service.Imp;
 
 import com.example.imageUI.common.ImaggaVision;
-import com.example.imageUI.domain.ImWithTags;
 import com.example.imageUI.domain.Image;
 import com.example.imageUI.dto.request.CreateImageRequest;
 import com.example.imageUI.exceptions.ImageNotFoundExceptions;
@@ -19,7 +18,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

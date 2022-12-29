@@ -27,30 +27,29 @@ public class TagController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public TagDto createTag(@Valid @RequestBody final CreateTagRequest request){
+    public TagDto createTag(@Valid @RequestBody final CreateTagRequest request) {
         return mapper.map(tagServiceImp.createTag(request));
     }
 
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<TagDto> getAll(){
+    public Iterable<TagDto> getAll() {
         return mapper.map(tagServiceImp.findAll());
     }
 
     @DeleteMapping("/{tagId}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteTag(@PathVariable("tagId") final UUID uuid){
+    public void deleteTag(@PathVariable("tagId") final UUID uuid) {
         try {
             tagServiceImp.deleteTag(uuid);
-        }
-        catch (TagNotFoundExceptions e){
+        } catch (TagNotFoundExceptions e) {
             throw new TagNotFoundRestException(TAG_NOT_FOUND);
         }
     }
 
     @GetMapping("/{tagId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public TagDto findTag(@PathVariable("tagId") final UUID uuid){
+    public TagDto findTag(@PathVariable("tagId") final UUID uuid) {
         Tag tag = tagServiceImp.findByUuid(uuid).orElseThrow(() -> new TagNotFoundRestException(TAG_NOT_FOUND));
         return mapper.map(tag);
     }
@@ -58,12 +57,11 @@ public class TagController {
     @PutMapping("/{tagId}")
     @ResponseStatus(code = HttpStatus.OK)
     public TagDto updateTag(@Valid @RequestBody final CreateTagRequest request,
-                            @PathVariable("tagId") final UUID uuid){
+                            @PathVariable("tagId") final UUID uuid) {
         try {
             Tag tag = tagServiceImp.updateTag(request, uuid).orElseThrow(() -> new TagNotFoundRestException(TAG_NOT_FOUND));
             return mapper.map(tag);
-        }
-        catch (TagExistsExceptions e){
+        } catch (TagExistsExceptions e) {
             throw new TagExistsRestException(e.getMessage());
         }
     }
