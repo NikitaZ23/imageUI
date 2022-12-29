@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface imWithTagsRepository extends CrudRepository<ImWithTags, Integer> {
+public interface ImWithTagsRepository extends CrudRepository<ImWithTags, Integer> {
     @Query(value = "select * from imagewithtags where id_im = ?1", nativeQuery = true)
     Iterable<ImWithTags> findById_Im(int id_im);
     @Query(value = "select * from imagewithtags where id_tg = ?1", nativeQuery = true)

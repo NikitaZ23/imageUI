@@ -4,8 +4,7 @@ import com.example.imageUI.domain.ImWithTags;
 import com.example.imageUI.domain.Tag;
 import com.example.imageUI.dto.request.CreateIWTRequest;
 import com.example.imageUI.exceptions.IWTNotFoundExceptions;
-import com.example.imageUI.exceptions.TagNotFoundExceptions;
-import com.example.imageUI.repository.imWithTagsRepository;
+import com.example.imageUI.repository.ImWithTagsRepository;
 import com.example.imageUI.service.Imp.ImWithTagsServiceImp;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,7 +24,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 @ExtendWith(MockitoExtension.class)
 public class IWTServiceTest {
     @Mock
-    imWithTagsRepository repository;
+    ImWithTagsRepository repository;
     @InjectMocks
     ImWithTagsServiceImp service;
 

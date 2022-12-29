@@ -36,12 +36,12 @@ public class ImageServiceImp implements ImageService {
     public Iterable<Image> findAll() {
         Iterable<Image> images = repository.findAll();
 
-        images.forEach(image ->
-        {
-            List<String> list = new ArrayList<>();
-            Iterable<ImWithTags> imWithTags = serviceImp.findById_Im(image.getId());
-            imWithTags.forEach(imWithTags1 -> list.add(String.valueOf(imWithTags1.getId_tg())));
-        });
+//        images.forEach(image ->
+//        {
+//            List<String> list = new ArrayList<>();
+//            Iterable<ImWithTags> imWithTags = serviceImp.findById_Im(image.getId());
+//            imWithTags.forEach(imWithTags1 -> list.add(String.valueOf(imWithTags1.getId_tg())));
+//        });
 
         return images;
     }

@@ -5,7 +5,7 @@ import com.example.imageUI.domain.Tag;
 import com.example.imageUI.dto.request.CreateIWTRequest;
 import com.example.imageUI.dto.request.CreateTagRequest;
 import com.example.imageUI.exceptions.ImageNotFoundExceptions;
-import com.example.imageUI.repository.imWithTagsRepository;
+import com.example.imageUI.repository.ImWithTagsRepository;
 import com.example.imageUI.service.ImWithTagsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.UUID;
 public class ImWithTagsServiceImp implements ImWithTagsService {
 
     public static final String DEPENDENCY_NOT_FOUND = "Dependency Not Found";
-    private final imWithTagsRepository repository;
+    private final ImWithTagsRepository repository;
 
     TagServiceImp tagService;
 
