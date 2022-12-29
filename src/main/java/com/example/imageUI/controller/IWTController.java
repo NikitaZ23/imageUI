@@ -1,7 +1,9 @@
 package com.example.imageUI.controller;
 
+import com.example.imageUI.domain.ImWithTags;
 import com.example.imageUI.dto.ImWithTagsDto;
 import com.example.imageUI.dto.request.CreateIWTRequest;
+import com.example.imageUI.exceptions.IWTNotFoundRestException;
 import com.example.imageUI.exceptions.ImageNotFoundExceptions;
 import com.example.imageUI.exceptions.ImageNotFoundRestException;
 import com.example.imageUI.mapper.ImageWithTagMapper;
@@ -23,29 +25,29 @@ public class IWTController {
 
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<ImWithTagsDto> findAll(){
+    public Iterable<ImWithTagsDto> findAll() {
         return mapper.map(serviceImp.findAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{uuid}")
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<ImWithTagsDto> findImageTags(@PathVariable("id") final int id){
-        return mapper.map(serviceImp.findById_Im(id));
+    public ImWithTagsDto findImageTags(@PathVariable("uuid") final UUID id) {
+        ImWithTags imWithTags = serviceImp.findByUuid(id).orElseThrow(() -> new IWTNotFoundRestException("Dependence not found"));
+        return mapper.map(imWithTags);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ImWithTagsDto createDependence(@Valid @RequestBody final CreateIWTRequest request){
+    public ImWithTagsDto createDependence(@Valid @RequestBody final CreateIWTRequest request) {
         return mapper.map(serviceImp.createIWT(request));
     }
 
     @DeleteMapping("/{uuid}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteDependence(@PathVariable("uuid") final UUID uuid){
-        try{
+    public void deleteDependence(@PathVariable("uuid") final UUID uuid) {
+        try {
             serviceImp.delete(uuid);
-        }
-        catch (ImageNotFoundExceptions e){
+        } catch (ImageNotFoundExceptions e) {
             throw new ImageNotFoundRestException(e.getMessage());
         }
     }

@@ -4,7 +4,6 @@ import com.example.imageUI.domain.ImWithTags;
 import com.example.imageUI.domain.Tag;
 import com.example.imageUI.dto.request.CreateIWTRequest;
 import com.example.imageUI.dto.request.CreateTagRequest;
-import com.example.imageUI.exceptions.IWNNotFoundExceptions;
 import com.example.imageUI.exceptions.ImageNotFoundExceptions;
 import com.example.imageUI.repository.imWithTagsRepository;
 import com.example.imageUI.service.ImWithTagsService;
