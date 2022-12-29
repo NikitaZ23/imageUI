@@ -2,12 +2,9 @@ package com.example.imageUI.service;
 
 import com.example.imageUI.domain.Image;
 import com.example.imageUI.dto.request.CreateImageRequest;
-import com.example.imageUI.repository.ImWithTagsRepository;
 import com.example.imageUI.repository.ImagesRepository;
-import com.example.imageUI.repository.TagRepository;
 import com.example.imageUI.service.Imp.ImWithTagsServiceImp;
 import com.example.imageUI.service.Imp.ImageServiceImp;
-import com.example.imageUI.service.Imp.TagServiceImp;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,9 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,17 +22,11 @@ public class ImageServiceTest {
 
     @Mock
     ImagesRepository repository;
-    @Mock
-    ImWithTagsRepository repositoryIm;
-    @Mock
-    TagRepository tagRepository;
 
     @InjectMocks
     ImageServiceImp service;
-    @InjectMocks
+    @Mock
     ImWithTagsServiceImp serviceImp;
-    @InjectMocks
-    TagServiceImp tagServiceImp;
 
 
     @Test
@@ -99,27 +88,18 @@ public class ImageServiceTest {
         assertThat(image3).isEqualTo(Optional.of(image2));
     }
 
-//    @Test
-//    @DisplayName("Проверка создания картинки")
-//    public void createImage() {
-//        Image image = new Image("1");
-//        Tag tag = new Tag("tag");
-//        ImWithTags imt = new ImWithTags(1, tag);
-//
-//        List<String> list = new ArrayList<>();
-//        list.add("tag1");
-//
-//        Mockito.when(repository.findByName(Mockito.anyString())).thenReturn(Optional.empty());
-//        Mockito.when(repository.save(Mockito.any())).thenReturn(image);
-//
-//        Mockito.when(repositoryIm.save(Mockito.any())).thenReturn(imt);
-//        Mockito.when(repositoryIm.findByOneObject(Mockito.anyInt(), Mockito.anyInt())).thenReturn(Optional.empty());
-//
-//        Mockito.when(tagRepository.findByName(Mockito.anyString())).thenReturn(Optional.of(tag));
-//        Mockito.when(tagRepository.save(Mockito.any())).thenReturn(tag);
-//
-//        Image image2 = service.createImage(new CreateImageRequest("1"), list);
-//
-//        assertThat(image).isEqualTo(image2);
-//    }
+    @Test
+    @DisplayName("Проверка создания картинки")
+    public void createImage() {
+        Image image = new Image("1");
+
+        List<String> list = new ArrayList<>();
+        list.add("tag1");
+
+        Mockito.when(repository.save(Mockito.any())).thenReturn(image);
+
+        Image image2 = service.createImage(new CreateImageRequest("1"), list);
+
+        assertThat(image).isEqualTo(image2);
+    }
 }

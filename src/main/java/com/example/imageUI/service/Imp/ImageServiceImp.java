@@ -32,7 +32,6 @@ public class ImageServiceImp implements ImageService {
 
     @Override
     public Iterable<Image> findAll() {
-        Iterable<Image> images = repository.findAll();
 
 //        images.forEach(image ->
 //        {
@@ -41,7 +40,7 @@ public class ImageServiceImp implements ImageService {
 //            imWithTags.forEach(imWithTags1 -> list.add(String.valueOf(imWithTags1.getId_tg())));
 //        });
 
-        return images;
+        return repository.findAll();
     }
 
     @Override
@@ -55,12 +54,7 @@ public class ImageServiceImp implements ImageService {
         Image image;
 
         Optional<Image> optionalImage = repository.findByName(request.getName());
-        if (optionalImage.isPresent()) {
-            image = optionalImage.get();
-        } else {
-            image = new Image(request.getName());
-            repository.save(image);
-        }
+        image = optionalImage.orElseGet(() -> repository.save(new Image(request.getName())));
         serviceImp.createIWT(image.getId(), list);
 
         return image;
@@ -82,9 +76,7 @@ public class ImageServiceImp implements ImageService {
 
         ImaggaVision imaggaVision = new ImaggaVision(file.getPath());
 
-        Image image = createImage(new CreateImageRequest(name), imaggaVision.getParseJson().getList());
-
-        return image;
+        return createImage(new CreateImageRequest(name), imaggaVision.getParseJson().getList());
     }
 
     @SneakyThrows
