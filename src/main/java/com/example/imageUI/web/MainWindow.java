@@ -2,6 +2,7 @@ package com.example.imageUI.web;
 
 import com.example.imageUI.common.ImageFull;
 import com.example.imageUI.domain.Image;
+import com.example.imageUI.exceptions.TagNotFoundExceptions;
 import com.example.imageUI.service.Imp.ImWithTagsServiceImp;
 import com.example.imageUI.service.Imp.ImageServiceImp;
 import com.example.imageUI.service.Imp.TagServiceImp;
@@ -90,7 +91,7 @@ public class MainWindow extends AppLayout {
 
         grid.addColumn(new NativeButtonRenderer<>("Редактировать", contact -> UI.getCurrent().navigate(FullTags.class).ifPresent(fullTags ->
         {
-            fullTags.setImage(imageServiceImp.findByName(contact.getName()));
+            fullTags.setImage(imageServiceImp.findByName(contact.getName()).get());
 
             fullTags.refreshAll();
         })));
@@ -120,7 +121,7 @@ public class MainWindow extends AppLayout {
         fulls = new ArrayList<>();
 
         System.out.println(nameTag);
-        imWithTagsServiceImp.findById_Tg(tagServiceImp.findByName(nameTag).get().getId()).forEach(imWithTags -> {
+        imWithTagsServiceImp.findById_Tg(tagServiceImp.findByName(nameTag).orElseThrow(()->new TagNotFoundExceptions("Tag not found")).getId()).forEach(imWithTags -> {
             Image image = imageServiceImp.findById(imWithTags.getId_im()).get();
             System.out.println(image.getName());
 

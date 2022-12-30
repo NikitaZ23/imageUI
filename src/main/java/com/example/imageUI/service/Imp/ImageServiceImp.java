@@ -32,14 +32,6 @@ public class ImageServiceImp implements ImageService {
 
     @Override
     public Iterable<Image> findAll() {
-
-//        images.forEach(image ->
-//        {
-//            List<String> list = new ArrayList<>();
-//            Iterable<ImWithTags> imWithTags = serviceImp.findById_Im(image.getId());
-//            imWithTags.forEach(imWithTags1 -> list.add(String.valueOf(imWithTags1.getId_tg())));
-//        });
-
         return repository.findAll();
     }
 
@@ -67,8 +59,9 @@ public class ImageServiceImp implements ImageService {
     }
 
     @Override
-    public Image findByName(String name) {
-        return repository.findByName(name).orElseThrow(() -> new ImageNotFoundExceptions(IMAGE_NOT_FOUND));
+    public Optional<Image> findByName(String name) {
+        Image image = repository.findByName(name).orElseThrow(() -> new ImageNotFoundExceptions(IMAGE_NOT_FOUND));
+        return Optional.of(image);
     }
 
     @Override

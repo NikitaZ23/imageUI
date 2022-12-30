@@ -63,6 +63,30 @@ public class ImageServiceTest {
     }
 
     @Test
+    @DisplayName("Проверка получения картинки по id")
+    public void findImageIdTest() {
+        Image image = new Image("a");
+
+        Mockito.when(repository.findById(Mockito.anyInt())).thenReturn(Optional.of(image));
+
+        Optional<Image> byUuid = service.findById(0);
+
+        assertThat(byUuid).isEqualTo(Optional.of(image));
+    }
+
+    @Test
+    @DisplayName("Проверка получения картинки по имени")
+    public void findImageNameTest() {
+        Image image = new Image("a");
+
+        Mockito.when(repository.findByName(Mockito.anyString())).thenReturn(Optional.of(image));
+
+        Optional<Image> byUuid = service.findByName("1");
+
+        assertThat(byUuid).isEqualTo(Optional.of(image));
+    }
+
+    @Test
     @DisplayName("Проверка удаления картинки")
     public void deleteImageTest() {
         Image image = new Image("a");

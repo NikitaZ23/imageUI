@@ -16,7 +16,7 @@ public interface ImWithTagsService {
     Iterable<ImWithTags> findById_Im(int id_im);
     Iterable<ImWithTags> findById_Tg(int id_tg);
 
-    ImWithTags findByOneObject(int id_im, int id_tg);
+    Optional<ImWithTags> findByOneObject(int id_im, int id_tg);
 
     void createIWT(int id_im, List<String> tags);
 

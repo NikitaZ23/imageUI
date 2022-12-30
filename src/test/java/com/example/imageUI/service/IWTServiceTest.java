@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -50,6 +51,22 @@ public class IWTServiceTest {
     }
 
     @Test
+    @DisplayName("Проверка получения тегов по id картинки")
+    public void findAllTagTest() {
+        Tag tag = new Tag("tag");
+        Tag tag2 = new Tag("tag2");
+
+        ImWithTags iwt1 = new ImWithTags(1, tag);
+        ImWithTags iwt2 = new ImWithTags(1, tag2);
+
+        Mockito.when(repository.findById_Im(Mockito.anyInt())).thenReturn(Arrays.asList(iwt1, iwt2));
+
+        List<Tag> tags = service.getTags(1);
+
+        assertThat(tags).isEqualTo(Arrays.asList(tag, tag2));
+    }
+
+    @Test
     @DisplayName("Проверка поиска по uuid")
     public void findByUuidTest() {
         ImWithTags iwt1 = new ImWithTags(1, new Tag("tag"));
@@ -59,6 +76,18 @@ public class IWTServiceTest {
         Optional<ImWithTags> byUuid = service.findByUuid(UUID.randomUUID());
 
         assertThat(byUuid).isEqualTo(Optional.of(iwt1));
+    }
+
+    @Test
+    @DisplayName("Проверка поиска по id картики и тега")
+    public void findByOneObjectTest() {
+        ImWithTags iwt1 = new ImWithTags(1, new Tag("tag"));
+
+        Mockito.when(repository.findByOneObject(Mockito.anyInt(), Mockito.anyInt())).thenReturn(Optional.of(iwt1));
+
+        Optional<ImWithTags> byOneObject = service.findByOneObject(0, 0);
+
+        assertThat(byOneObject).isEqualTo(Optional.of(iwt1));
     }
 
     @Test

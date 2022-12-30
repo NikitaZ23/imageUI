@@ -59,7 +59,7 @@ public class FullTags extends AppLayout {
         grid.addColumn(Tag::getName).setHeader("Name");
         grid.addColumn(new NativeButtonRenderer<>("Удалить", contact -> {
             System.out.println(contact.getName() + contact.getId());
-            imWithTagsServiceImp.delete(imWithTagsServiceImp.findByOneObject(image.getId(), contact.getId()).getUuid());
+            imWithTagsServiceImp.delete(imWithTagsServiceImp.findByOneObject(image.getId(), contact.getId()).get().getUuid());
             refreshAll();
         }));
     }

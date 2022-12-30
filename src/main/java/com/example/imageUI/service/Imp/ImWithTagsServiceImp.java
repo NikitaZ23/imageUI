@@ -84,8 +84,9 @@ public class ImWithTagsServiceImp implements ImWithTagsService {
     }
 
     @Override
-    public ImWithTags findByOneObject(int id_im, int id_tg) {
-        return repository.findByOneObject(id_im, id_tg).orElseThrow(() -> new IWTNotFoundExceptions(DEPENDENCY_NOT_FOUND));
+    public Optional<ImWithTags> findByOneObject(int id_im, int id_tg) {
+        ImWithTags im = repository.findByOneObject(id_im, id_tg).orElseThrow(() -> new IWTNotFoundExceptions(DEPENDENCY_NOT_FOUND));
+        return Optional.of(im);
     }
 
     @Override

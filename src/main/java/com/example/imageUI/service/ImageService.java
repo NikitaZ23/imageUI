@@ -28,5 +28,5 @@ public interface ImageService {
 
     void createImage(@NotNull MultiFileMemoryBuffer buffer, @NotNull String fileName);
 
-    Image findByName(String name);
+    Optional<Image> findByName(String name);
 }
