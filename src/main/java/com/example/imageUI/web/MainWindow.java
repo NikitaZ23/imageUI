@@ -10,6 +10,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridSelectionModel;
 import com.vaadin.flow.component.messages.MessageInput;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -51,6 +52,7 @@ public class MainWindow extends AppLayout {
 
         button = new Button("Refresh");
         grid = new Grid<>();
+        grid.setSelectionMode(Grid.SelectionMode.MULTI);
 
         MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
         Upload upload = new Upload(buffer);
@@ -100,9 +102,12 @@ public class MainWindow extends AppLayout {
     }
 
     public void refreshAll() {
+        GridSelectionModel<ImageFull> selectionModel = grid.getSelectionModel();
+        selectionModel.getSelectedItems().forEach(imageFull -> System.out.println(imageFull.getName()));
+
         grid.setItems();
         grid.setItems(getList());
-    }
+  }
 
     public List<ImageFull> getList() {
         fulls = new ArrayList<>();
@@ -121,7 +126,7 @@ public class MainWindow extends AppLayout {
         fulls = new ArrayList<>();
 
         System.out.println(nameTag);
-        imWithTagsServiceImp.findById_Tg(tagServiceImp.findByName(nameTag).orElseThrow(()->new TagNotFoundExceptions("Tag not found")).getId()).forEach(imWithTags -> {
+        imWithTagsServiceImp.findById_Tg(tagServiceImp.findByName(nameTag).orElseThrow(() -> new TagNotFoundExceptions("Tag not found")).getId()).forEach(imWithTags -> {
             Image image = imageServiceImp.findById(imWithTags.getId_im()).get();
             System.out.println(image.getName());
 
