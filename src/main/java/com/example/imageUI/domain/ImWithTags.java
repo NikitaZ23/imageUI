@@ -16,8 +16,8 @@ import java.util.UUID;
 @Table(name = "\"imagewithtags\"")
 public class ImWithTags {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inwt_seq")
-    @SequenceGenerator(name = "inwt_seq", sequenceName = "hibernate_sequence_iwt", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "iwt_seq")
+    @SequenceGenerator(name = "iwt_seq", sequenceName = "hibernate_sequence_iwt", allocationSize = 1)
     private int id;
 
     @Column(name = "\"uuid\"", nullable = false)

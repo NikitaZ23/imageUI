@@ -34,6 +34,8 @@ public class ImWithTagsServiceImp implements ImWithTagsService {
         tags.forEach(tag -> list.add(tagService.createTag(new CreateTagRequest(tag))));
 
         deleteBy_IdIm(id_im);
+        System.out.println(list.size());
+        System.out.println(list);
         list.forEach(tag -> createIWT(new CreateIWTRequest(id_im, tag)));
     }
 
@@ -61,8 +63,7 @@ public class ImWithTagsServiceImp implements ImWithTagsService {
     @Override
     @Transactional
     public ImWithTags createIWT(CreateIWTRequest request) {
-        Optional<ImWithTags> object = repository.findByOneObject(request.getId_im(), request.getId_im());
-
+        Optional<ImWithTags> object = repository.findByOneObject(request.getId_im(), request.getId_tg().getId());
         return object.orElseGet(() -> repository.save(new ImWithTags(request.getId_im(), request.getId_tg())));
     }
 
@@ -70,13 +71,14 @@ public class ImWithTagsServiceImp implements ImWithTagsService {
     public Iterable<ImWithTags> findAll() {
         return repository.findAll();
     }
+
     @Override
     public Optional<ImWithTags> findByUuid(UUID id) {
         return repository.findByUuid(id);
     }
 
     @Override
-    public List<Tag> getTags(int id_im){
+    public List<Tag> getTags(int id_im) {
         List<Tag> tags = new ArrayList<>();
         findById_Im(id_im).forEach(imWithTags -> tags.add(imWithTags.getId_tg()));
 
