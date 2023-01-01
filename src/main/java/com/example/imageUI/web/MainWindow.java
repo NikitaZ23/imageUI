@@ -52,7 +52,6 @@ public class MainWindow extends AppLayout {
 
         button = new Button("Refresh");
         grid = new Grid<>();
-        grid.setSelectionMode(Grid.SelectionMode.MULTI);
 
         MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
         Upload upload = new Upload(buffer);
@@ -102,9 +101,6 @@ public class MainWindow extends AppLayout {
     }
 
     public void refreshAll() {
-        GridSelectionModel<ImageFull> selectionModel = grid.getSelectionModel();
-        selectionModel.getSelectedItems().forEach(imageFull -> System.out.println(imageFull.getName()));
-
         grid.setItems();
         grid.setItems(getList());
   }
