@@ -14,6 +14,7 @@ public interface ImWithTagsService {
     Optional<ImWithTags> findByUuid(UUID id);
 
     Iterable<ImWithTags> findById_Im(int id_im);
+
     Iterable<ImWithTags> findById_Tg(int id_tg);
 
     Optional<ImWithTags> findByOneObject(int id_im, int id_tg);

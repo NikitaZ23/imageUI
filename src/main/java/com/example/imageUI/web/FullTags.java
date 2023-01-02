@@ -1,6 +1,5 @@
 package com.example.imageUI.web;
 
-import com.example.imageUI.common.ImageFull;
 import com.example.imageUI.domain.Image;
 import com.example.imageUI.domain.Tag;
 import com.example.imageUI.service.Imp.ImWithTagsServiceImp;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Route("tags")
@@ -36,8 +34,6 @@ public class FullTags extends AppLayout {
     Button buttonAdd;
     Button buttonSet;
     Grid<Tag> grid2;
-
-    HorizontalLayout horizontalLayout;
 
     @Autowired
     ImWithTagsServiceImp imWithTagsServiceImp;

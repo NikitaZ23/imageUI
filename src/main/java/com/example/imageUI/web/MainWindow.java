@@ -10,7 +10,6 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridSelectionModel;
 import com.vaadin.flow.component.messages.MessageInput;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -103,7 +102,7 @@ public class MainWindow extends AppLayout {
     public void refreshAll() {
         grid.setItems();
         grid.setItems(getList());
-  }
+    }
 
     public List<ImageFull> getList() {
         fulls = new ArrayList<>();
